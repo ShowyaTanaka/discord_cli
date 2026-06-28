@@ -5,6 +5,8 @@ __pycache__/
 .idea/
 .vscode/
 .venv/
+.egg-info/
+*.egg-info/
 .env.edit
 *.db
 tests/fixtures/services/test_discord_service/test_tmp_image_dir/*

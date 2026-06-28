@@ -1,0 +1,31 @@
+[project]
+name = "discord-cli"
+version = "0.1.0"
+description = "CLI tool for posting and reading Discord data with discord.py"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "discord.py>=2.6.4,<3.0.0",
+    "python-dotenv>=1.1.1,<2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.1,<9.0.0",
+]
+
+[project.scripts]
+discord-cli = "discord_cli.__main__:main"
+
+[build-system]
+requires = ["setuptools>=80.9.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
