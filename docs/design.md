@@ -23,11 +23,13 @@
 - `src/discord_cli/config.py`
   - `.env` と環境変数を読み込み、CLI のデフォルト設定を解決する
 - `src/discord_cli/models.py`
-  - CLI 出力で扱うデータ構造を定義する
+  - Service と Repository 間で扱うドメインデータ構造を定義する
+- `src/discord_cli/repository.py`
+  - `discord.py` と Bot 接続、Discord API 通信の技術詳細を閉じ込める
 - `src/discord_cli/service.py`
-  - `discord.py` をラップし、Discord との通信処理を集約する
-- `src/discord_cli/formatters.py`
-  - 取得データを人間が見やすいテキストに整形する
+  - CLI のユースケースを調停し、Repository を呼び出す
+- `src/discord_cli/presentation_model/`
+  - JSON 出力形式を決める dataclass 群と serializer を置く
 - `src/discord_cli/cli.py`
   - `argparse` によるコマンドライン定義とユースケース制御
 
@@ -45,13 +47,13 @@
 
 ### `guilds`
 
-Bot が参加しているギルド一覧を表示します。
+Bot が参加しているギルド一覧を JSON で表示します。
 
 ```bash
 discord-cli guilds
 ```
 
-出力項目:
+JSON 項目:
 
 - guild_id
 - guild_name
@@ -60,7 +62,7 @@ discord-cli guilds
 
 ### `channels`
 
-指定ギルドのチャンネル一覧を表示します。
+指定ギルドのチャンネル一覧を JSON で表示します。
 
 ```bash
 discord-cli channels --guild-id 123456789012345678
@@ -68,7 +70,7 @@ discord-cli channels --guild-id 123456789012345678
 
 `--guild-id` を省略した場合は `DEFAULT_GUILD_ID` を使います。
 
-出力項目:
+JSON 項目:
 
 - channel_id
 - channel_name
@@ -78,7 +80,7 @@ discord-cli channels --guild-id 123456789012345678
 
 ### `messages`
 
-指定チャンネルのメッセージ履歴を表示します。
+指定チャンネルのメッセージ履歴を JSON で表示します。
 
 ```bash
 discord-cli messages --channel-id 123456789012345678 --limit 20
@@ -89,7 +91,7 @@ discord-cli messages --channel-id 123456789012345678 --limit 20
 - `--channel-id`: 対象チャンネル ID。未指定時は `DEFAULT_CHANNEL_ID`
 - `--limit`: 取得件数。未指定時は `MESSAGE_FETCH_LIMIT`
 
-出力項目:
+JSON 項目:
 
 - message_id
 - created_at
@@ -98,7 +100,7 @@ discord-cli messages --channel-id 123456789012345678 --limit 20
 
 ### `message`
 
-指定メッセージの詳細を表示します。
+指定メッセージの詳細を JSON で表示します。
 
 ```bash
 discord-cli message \
@@ -106,7 +108,7 @@ discord-cli message \
   --message-id 234567890123456789
 ```
 
-出力項目:
+JSON 項目:
 
 - message_id
 - channel_id
@@ -130,7 +132,7 @@ discord-cli post --channel-id 123456789012345678 --message "hello"
 - `--channel-id`: 投稿先チャンネル ID。未指定時は `DEFAULT_CHANNEL_ID`
 - `--message`: 投稿本文
 
-投稿結果として、作成された `message_id` と `jump_url` を表示します。
+投稿結果として、作成されたメッセージ情報を JSON で表示します。
 
 ## 環境変数
 
@@ -144,6 +146,12 @@ discord-cli post --channel-id 123456789012345678 --message "hello"
 - 必須の ID や Token が無い場合は CLI で明示的にエラーにする
 - 投稿不可チャンネルや履歴取得不可チャンネルでは説明付き例外を返す
 - Discord API 由来の失敗は `discord.py` の例外を捕捉して、CLI 向けに短く整形する
+
+## JSON 出力方針
+
+- CLI は domain model を直接 `json.dumps` しない
+- `presentation_model` 配下の dataclass に変換してから `dataclasses.asdict` で JSON 化する
+- これにより、出力契約を Service/Repository の内部データ構造から分離する
 
 ## 実装上の補足
 

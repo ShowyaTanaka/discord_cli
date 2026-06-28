@@ -1,6 +1,6 @@
 # discord_cli
 
-`discord.py` を使って Discord へ投稿、ギルド取得、チャンネル取得、チャンネル内メッセージ閲覧、各種 ID 確認を行う CLI ツールです。
+`discord.py` を使って Discord へ投稿、ギルド取得、チャンネル取得、チャンネル内メッセージ閲覧、各種 ID 確認を行う CLI ツールです。出力はすべて JSON です。
 
 詳細設計とコマンド仕様は [docs/design.md](/Users/noellight/discord_cli/docs/design.md) にまとめています。
 
@@ -26,6 +26,21 @@ discord-cli post --channel-id 123456789012345678 --message "hello from discord.p
 ```
 
 `python -m discord_cli ...` でも同じように実行できます。
+
+出力例:
+
+```json
+{
+  "guilds": [
+    {
+      "guild_id": 123456789012345678,
+      "name": "example",
+      "owner_id": 234567890123456789,
+      "member_count": 42
+    }
+  ]
+}
+```
 
 ## 注意点
 
