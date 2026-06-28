@@ -30,10 +30,12 @@
   - `discord.py` のオブジェクトを entity へ変換する
 - `src/discord_cli/service.py`
   - CLI のユースケースを調停し、Repository を呼び出す
+- `src/discord_cli/presentation/`
+  - `argparse` によるコマンドライン入力定義を持つ
 - `src/discord_cli/presentation_model/`
   - JSON 出力形式を決める dataclass 群と serializer を置く
 - `src/discord_cli/cli.py`
-  - `argparse` によるコマンドライン定義とユースケース制御
+  - エントリポイントとユースケース制御を持つ
 
 ## Intents
 
