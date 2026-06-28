@@ -18,9 +18,6 @@ class DiscordService:
     async def login(self, token: str) -> None:
         await self._repository.login(token)
 
-    async def close(self) -> None:
-        await self._repository.close()
-
     async def list_guilds(self) -> list[GuildSummary]:
         return await self._repository.list_guilds()
 
