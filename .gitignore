@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+.DS_Store
+.idea/
+.vscode/
+.venv/
+.env.edit
+*.db
+tests/fixtures/services/test_discord_service/test_tmp_image_dir/*
+discord_media_data/*
