@@ -23,6 +23,8 @@ discord-cli channels --guild-id 123456789012345678
 discord-cli messages --channel-id 123456789012345678 --limit 30
 discord-cli message --channel-id 123456789012345678 --message-id 123456789012345678
 discord-cli post --channel-id 123456789012345678 --message "hello from discord.py"
+discord-cli create-channel --guild-id 123456789012345678 --name "ops-log"
+discord-cli create-thread --channel-id 123456789012345678 --name "investigation" --private
 ```
 
 `python -m discord_cli ...` でも同じように実行できます。
@@ -43,6 +45,8 @@ discord-cli post --channel-id 123456789012345678 --message "hello from discord.p
 ```
 
 `message` と `messages` のレスポンスでは、投稿者情報は `author` オブジェクトで返します。
+
+`create-channel` は text channel を作成し、`create-thread` は text/forum channel で thread を作成します。
 
 ## 注意点
 

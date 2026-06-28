@@ -9,6 +9,8 @@
 - 指定チャンネル内メッセージの一覧取得
 - 指定メッセージの詳細取得
 - 指定チャンネルへの投稿
+- 指定ギルドへのテキストチャンネル作成
+- 指定チャンネルへのスレッド作成
 - ギルド ID、チャンネル ID、メッセージ ID の確認
 
 ## 設計方針
@@ -136,6 +138,53 @@ discord-cli post --channel-id 123456789012345678 --message "hello"
 - `--message`: 投稿本文
 
 投稿結果として、作成されたメッセージ情報を JSON で表示します。
+
+### `create-channel`
+
+指定ギルドに text channel を作成します。
+
+```bash
+discord-cli create-channel --guild-id 123456789012345678 --name "ops-log"
+```
+
+主なオプション:
+
+- `--guild-id`: 作成先 guild ID。未指定時は `DEFAULT_GUILD_ID`
+- `--name`: チャンネル名
+- `--category-id`: 配下に置く category channel ID
+- `--topic`: トピック
+- `--position`: 表示位置
+- `--nsfw`: NSFW チャンネルとして作成
+- `--reason`: 監査ログ用理由
+
+### `create-thread`
+
+指定チャンネルに thread を作成します。
+
+```bash
+discord-cli create-thread --channel-id 123456789012345678 --name "incident-20260628" --private
+```
+
+text channel の場合:
+
+- `--message-id` を渡すと既存メッセージから public thread を作成
+- `--private` を渡すと private thread を作成
+
+forum channel の場合:
+
+- `--content` を渡して初期投稿付き thread を作成
+
+主なオプション:
+
+- `--channel-id`: 親チャンネル ID。未指定時は `DEFAULT_CHANNEL_ID`
+- `--name`: thread 名
+- `--message-id`: text channel 用の起点 message ID
+- `--content`: forum channel 用の初期投稿本文
+- `--auto-archive-duration`: `60`, `1440`, `4320`, `10080`
+- `--private`: text channel で private thread を作成
+- `--invitable` / `--no-invitable`: private thread への招待可否
+- `--slowmode-delay`: slowmode 秒数
+- `--reason`: 監査ログ用理由
 
 ## 環境変数
 

@@ -21,6 +21,18 @@ class ChannelPresentation:
 
 
 @dataclass(frozen=True)
+class ThreadPresentation:
+    thread_id: int
+    parent_channel_id: int
+    name: str
+    thread_type: str
+    owner_id: int | None
+    message_count: int | None
+    member_count: int | None
+    archived: bool
+
+
+@dataclass(frozen=True)
 class AuthorPresentation:
     author_id: int | None
     author_name: str
@@ -61,3 +73,13 @@ class MessageListResponse:
 @dataclass(frozen=True)
 class MessageResponse:
     message: MessagePresentation
+
+
+@dataclass(frozen=True)
+class ChannelResponse:
+    channel: ChannelPresentation
+
+
+@dataclass(frozen=True)
+class ThreadResponse:
+    thread: ThreadPresentation

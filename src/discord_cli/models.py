@@ -39,3 +39,15 @@ class MessageSummary:
     edited_at: str | None
     content: str
     jump_url: str
+
+
+@dataclass(frozen=True)
+class ThreadSummary:
+    thread_id: int
+    parent_channel_id: int
+    name: str
+    thread_type: str
+    owner_id: int | None
+    message_count: int | None
+    member_count: int | None
+    archived: bool
