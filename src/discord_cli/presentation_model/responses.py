@@ -21,11 +21,20 @@ class ChannelPresentation:
 
 
 @dataclass(frozen=True)
+class AuthorPresentation:
+    author_id: int | None
+    author_name: str
+    global_name: str | None
+    bot: bool
+    discriminator: str
+    avatar_url: str | None
+
+
+@dataclass(frozen=True)
 class MessagePresentation:
     message_id: int
     channel_id: int
-    author_id: int | None
-    author_name: str
+    author: AuthorPresentation
     created_at: str
     edited_at: str | None
     content: str

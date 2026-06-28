@@ -42,6 +42,8 @@ discord-cli post --channel-id 123456789012345678 --message "hello from discord.p
 }
 ```
 
+`message` と `messages` のレスポンスでは、投稿者情報は `author` オブジェクトで返します。
+
 ## 注意点
 
 - メッセージ内容を読むには Bot 側で `MESSAGE CONTENT INTENT` が必要です。

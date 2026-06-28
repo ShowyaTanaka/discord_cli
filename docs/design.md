@@ -26,6 +26,8 @@
   - Service と Repository 間で扱うドメインデータ構造を定義する
 - `src/discord_cli/repository.py`
   - `discord.py` と Bot 接続、Discord API 通信の技術詳細を閉じ込める
+- `src/discord_cli/mapper.py`
+  - `discord.py` のオブジェクトを entity へ変換する
 - `src/discord_cli/service.py`
   - CLI のユースケースを調停し、Repository を呼び出す
 - `src/discord_cli/presentation_model/`
@@ -112,8 +114,7 @@ JSON 項目:
 
 - message_id
 - channel_id
-- author_id
-- author_name
+- author
 - created_at
 - edited_at
 - content

@@ -21,11 +21,20 @@ class ChannelSummary:
 
 
 @dataclass(frozen=True)
+class AuthorSummary:
+    author_id: int | None
+    author_name: str
+    global_name: str | None
+    bot: bool
+    discriminator: str
+    avatar_url: str | None
+
+
+@dataclass(frozen=True)
 class MessageSummary:
     message_id: int
     channel_id: int
-    author_id: int | None
-    author_name: str
+    author: AuthorSummary
     created_at: str
     edited_at: str | None
     content: str
