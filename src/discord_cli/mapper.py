@@ -4,7 +4,7 @@ from datetime import UTC
 
 import discord
 
-from discord_cli.models import AuthorSummary, ChannelSummary, GuildSummary, MessageSummary
+from discord_cli.models import AuthorSummary, ChannelSummary, GuildSummary, MessageSummary, ThreadSummary
 
 
 def to_guild_summary(guild: discord.Guild) -> GuildSummary:
@@ -47,4 +47,17 @@ def to_author_summary(author: discord.abc.User) -> AuthorSummary:
         bot=getattr(author, "bot", False),
         discriminator=getattr(author, "discriminator", "0000"),
         avatar_url=str(avatar.url) if avatar is not None else None,
+    )
+
+
+def to_thread_summary(thread: discord.Thread) -> ThreadSummary:
+    return ThreadSummary(
+        thread_id=thread.id,
+        parent_channel_id=thread.parent_id,
+        name=thread.name,
+        thread_type=str(thread.type),
+        owner_id=thread.owner_id,
+        message_count=thread.message_count,
+        member_count=thread.member_count,
+        archived=thread.archived,
     )

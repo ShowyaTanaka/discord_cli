@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from discord_cli.models import AuthorSummary, ChannelSummary, GuildSummary, MessageSummary
+from discord_cli.models import AuthorSummary, ChannelSummary, GuildSummary, MessageSummary, ThreadSummary
 from discord_cli.presentation_model.responses import (
     AuthorPresentation,
+    ChannelResponse,
     ChannelListResponse,
     ChannelPresentation,
     GuildListResponse,
@@ -10,6 +11,8 @@ from discord_cli.presentation_model.responses import (
     MessageListResponse,
     MessagePresentation,
     MessageResponse,
+    ThreadPresentation,
+    ThreadResponse,
 )
 
 
@@ -33,6 +36,14 @@ def build_message_list_response(channel_id: int, messages: list[MessageSummary])
 
 def build_message_response(message: MessageSummary) -> MessageResponse:
     return MessageResponse(message=_build_message_presentation(message))
+
+
+def build_channel_response(channel: ChannelSummary) -> ChannelResponse:
+    return ChannelResponse(channel=_build_channel_presentation(channel))
+
+
+def build_thread_response(thread: ThreadSummary) -> ThreadResponse:
+    return ThreadResponse(thread=_build_thread_presentation(thread))
 
 
 def _build_guild_presentation(guild: GuildSummary) -> GuildPresentation:
@@ -74,4 +85,17 @@ def _build_author_presentation(author: AuthorSummary) -> AuthorPresentation:
         bot=author.bot,
         discriminator=author.discriminator,
         avatar_url=author.avatar_url,
+    )
+
+
+def _build_thread_presentation(thread: ThreadSummary) -> ThreadPresentation:
+    return ThreadPresentation(
+        thread_id=thread.thread_id,
+        parent_channel_id=thread.parent_channel_id,
+        name=thread.name,
+        thread_type=thread.thread_type,
+        owner_id=thread.owner_id,
+        message_count=thread.message_count,
+        member_count=thread.member_count,
+        archived=thread.archived,
     )

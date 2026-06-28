@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from discord_cli.models import ChannelSummary, GuildSummary, MessageSummary
+from discord_cli.models import ChannelSummary, GuildSummary, MessageSummary, ThreadSummary
 from discord_cli.repository import DiscordRepository
 
 
@@ -34,3 +34,53 @@ class DiscordService:
         if not content.strip():
             raise ValueError("Message content must not be empty.")
         return await self._repository.post_message(channel_id, content)
+
+    async def create_text_channel(
+        self,
+        guild_id: int,
+        name: str,
+        *,
+        category_id: int | None = None,
+        topic: str | None = None,
+        position: int | None = None,
+        nsfw: bool = False,
+        reason: str | None = None,
+    ) -> ChannelSummary:
+        if not name.strip():
+            raise ValueError("Channel name must not be empty.")
+        return await self._repository.create_text_channel(
+            guild_id,
+            name,
+            category_id=category_id,
+            topic=topic,
+            position=position,
+            nsfw=nsfw,
+            reason=reason,
+        )
+
+    async def create_thread(
+        self,
+        channel_id: int,
+        name: str,
+        *,
+        message_id: int | None = None,
+        content: str | None = None,
+        auto_archive_duration: int | None = None,
+        private: bool = False,
+        invitable: bool = True,
+        slowmode_delay: int | None = None,
+        reason: str | None = None,
+    ) -> ThreadSummary:
+        if not name.strip():
+            raise ValueError("Thread name must not be empty.")
+        return await self._repository.create_thread(
+            channel_id,
+            name,
+            message_id=message_id,
+            content=content,
+            auto_archive_duration=auto_archive_duration,
+            private=private,
+            invitable=invitable,
+            slowmode_delay=slowmode_delay,
+            reason=reason,
+        )
